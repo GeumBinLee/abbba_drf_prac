@@ -37,7 +37,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     follow = serializers.StringRelatedField(many=True)  # 모델 이름
     followers = serializers.StringRelatedField(many=True)  # related_name 설정한 거
 
-    # article = ArticleListSerializer(many=True)
+    article_set = ArticleListSerializer(many=True)
+    
+    likes = ArticleListSerializer(many=True)
 
     class Meta:
         model = User
