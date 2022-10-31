@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('signup/', views.SignupView.as_view(), name="signup_view"),
+    path('feed/',views.FeedView.as_view(), name='feed_view'),
     path('api/token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'), #로그인 할 때 씀
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('<int:id>/follow/',views.FollowView.as_view(), name="follow_view"),
