@@ -1,13 +1,18 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from users import serializers
 from users.models import User
+from articles.models import Article
 
+from articles.serializers import ArticleListSerializer
+from django.db.models.query_utils import Q
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 from rest_framework.permissions import IsAuthenticated
 from users.serializers import SignupSerializer, TokenObtainPairSerializer, ProfileSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
 
 class SignupView(APIView):
     def post(self, request):
@@ -41,4 +46,15 @@ class ProfileView(APIView) :
     def get(self, request, id) :
         user = get_object_or_404(User, id=id)
         serializer = ProfileSerializer(user)
+        return Response(serializer.data)
+    
+class FeedView(APIView) :
+    permission_classes = [IsAuthenticated]
+    
+    def get (self, request) :
+        q = Q()
+        for user in request.user.followers.all() :
+            q.add(Q(user=user), q.OR)
+        feeds = Article.objects.filter(q)
+        serializer = ArticleListSerializer(feeds, many=True)
         return Response(serializer.data)
