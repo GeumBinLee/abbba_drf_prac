@@ -2,7 +2,7 @@ from rest_framework import serializers
 from users.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from articles.serializers import ArticleListSerializer
-
+# 시리얼랄이저 예
 
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
